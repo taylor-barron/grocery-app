@@ -20,6 +20,13 @@
       "frequency": true,
       "completed": false,
       "id": 3
+    },
+    {
+      "item": "Steak",
+      "category": "Meat & Seafood",
+      "frequency": false,
+      "completed": false,
+      "id": 4
     }
   ],
   "categories": [

@@ -13,8 +13,6 @@ const Item = ({ item, onDelete }) => {
           onClick={() => onDelete(item.id)}
         />
       </h3>
-      <p>{item.category}</p>
-      <hr></hr>
     </div>
   )
 }
