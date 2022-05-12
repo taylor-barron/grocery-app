@@ -1,18 +1,21 @@
-import { FaTimes } from 'react-icons/fa'
+import { FaCheckSquare, FaTimes } from 'react-icons/fa'
 
-const Item = ({ item, onDelete }) => {
+const Item = ({ item, deleteOrShop }) => {
+
+  /*if (deleteOrShop == false) {
+    const icon = 
+    <FaTimes
+      style={{ color: 'red', cursor: 'pointer' }}
+      onClick={() => deleteItem(item.id)}
+    />
+  }*/
   return (
-    <div
+    <div className='item'
       //className={`item ${item.reminder && 'reminder'}`}
       //onDoubleClick={() => onToggle(item.id)}
     >
-      <h3>
-        {item.item}{' '}
-        <FaTimes
-          style={{ color: 'red', cursor: 'pointer' }}
-          onClick={() => onDelete(item.id)}
-        />
-      </h3>
+      <p>{item.item}{' '}</p>
+      <FaCheckSquare style={{ color: 'steelblue', cursor: 'pointer'}} />
     </div>
   )
 }

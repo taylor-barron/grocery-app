@@ -11,6 +11,7 @@ import AddCategory from './components/AddCategory'
 const App = () => {
   const [showAddItem, setShowAddItem] = useState(false)
   const [showAddCat, setShowAddCat] = useState(false)
+  const [showDeleteOrShop, setShowDeleteOrShop] = useState(false)
   const [categories, setCategories] = useState([])
   const [items, setItems] = useState([])
 
@@ -87,6 +88,16 @@ const App = () => {
       : alert('Error Deleting This Category')
   }
 
+  const deleteItem = async (id) => {
+    const res = await fetch(`http://localhost:5000/items/${id}`, {
+      method: 'DELETE',
+    })
+    //We should control the response status to decide if we will change the state or not.
+    res.status === 200
+      ? setCategories(categories.filter((category) => category.id !== id))
+      : alert('Error Deleting This Category')
+  }
+
   // Toggle Reminder
   /*const toggleReminder = async (id) => {
     const categoryToToggle = await fetchCategories(id)
@@ -115,8 +126,10 @@ const App = () => {
         <Header
           onAddItem={() => setShowAddItem(!showAddItem)}
           onAddCategory={() => setShowAddCat(!showAddCat)}
+          onDeleteOrShop={() => setShowDeleteOrShop(!showDeleteOrShop)}
           showItem={showAddItem}
           showCat={showAddCat}
+          showDeleteOrShop={showDeleteOrShop}
         />
         <Routes>
           <Route

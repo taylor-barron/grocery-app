@@ -22,6 +22,7 @@ body {
 
 .header {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
@@ -104,6 +105,13 @@ body {
 .form-control-check input {
   flex: 2;
   height: 20px;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 footer {
