@@ -1,10 +1,11 @@
 import Item from './Item'
 
-const Category = ({ tasks, onDelete, onToggle }) => {
+const Category = ({ category, items, onDelete }) => {
   return (
     <>
-      {tasks.map((task, index) => (
-        <Item key={index} task={task} onDelete={onDelete} onToggle={onToggle} />
+      <h2>{ category.category }{' '}</h2>
+      {items.map((item, index) => (
+        <Item key={index} item={item} onDelete={onDelete} />
       ))}
     </>
   )

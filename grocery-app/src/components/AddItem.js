@@ -1,56 +1,71 @@
 import { useState } from 'react'
 
 const AddItem = ({ onAdd }) => {
-  const [text, setText] = useState('')
-  const [day, setDay] = useState('')
-  const [reminder, setReminder] = useState(false)
+  const [item, setItem] = useState('')
+  const [category, setCategory] = useState('')
+  const [frequency, setFrequency] = useState(false)
+  const [completed, setCompleted] = useState(false)
 
   const onSubmit = (e) => {
     e.preventDefault()
 
-    if (!text) {
-      alert('Please add a task')
+    if (!item) {
+      alert('Please add an item')
+      return
+    }
+    if (!category) {
+      alert('Please add a category')
       return
     }
 
-    onAdd({ text, day, reminder })
+    onAdd({ item, category, frequency, completed })
 
-    setText('')
-    setDay('')
-    setReminder(false)
+    setItem('')
+    setCategory('')
+    setFrequency(false)
+    setCompleted(false)
   }
 
   return (
     <form className='add-form' onSubmit={onSubmit}>
       <div className='form-control'>
-        <label>Task</label>
+        <label>Item</label>
         <input
           type='text'
-          placeholder='Add Task'
-          value={text}
-          onChange={(e) => setText(e.target.value)}
+          placeholder='Add Item'
+          value={item}
+          onChange={(e) => setItem(e.target.value)}
         />
       </div>
       <div className='form-control'>
-        <label>Day & Time</label>
+        <label>Category</label>
         <input
           type='text'
-          placeholder='Add Day & Time'
-          value={day}
-          onChange={(e) => setDay(e.target.value)}
+          placeholder='Category'
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
         />
       </div>
       <div className='form-control form-control-check'>
-        <label>Set Reminder</label>
+        <label>Frequent Item</label>
         <input
           type='checkbox'
-          checked={reminder}
-          value={reminder}
-          onChange={(e) => setReminder(e.currentTarget.checked)}
+          checked={frequency}
+          value={frequency}
+          onChange={(e) => setFrequency(e.currentTarget.checked)}
+        />
+      </div>
+      <div className='form-control form-control-check'>
+        <label>Already Purchased</label>
+        <input
+          type='checkbox'
+          checked={completed}
+          value={completed}
+          onChange={(e) => setCompleted(e.currentTarget.checked)}
         />
       </div>
 
-      <input type='submit' value='Save Task' className='btn btn-block' />
+      <input type='submit' value='Add Item' className='btn btn-block' />
     </form>
   )
 }

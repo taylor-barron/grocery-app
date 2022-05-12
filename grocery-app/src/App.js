@@ -2,112 +2,137 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import Category from './components/Category'
+import List from './components/List'
+//import Category from './components/Category'
 import AddItem from './components/AddItem'
 import About from './components/About'
+import AddCategory from './components/AddCategory'
 
 const App = () => {
   const [showAddItem, setShowAddItem] = useState(false)
-  const [tasks, setTasks] = useState([])
+  const [showAddCat, setShowAddCat] = useState(false)
+  const [categories, setCategories] = useState([])
+  const [items, setItems] = useState([])
 
+  // reworked, potential problem
   useEffect(() => {
-    const getTasks = async () => {
-      const tasksFromServer = await fetchTasks()
-      setTasks(tasksFromServer)
+    const getData = async () => {
+      const categoriesFromServer = await fetchCategories()
+      setCategories(categoriesFromServer)
+      const itemsFromServer = await fetchItems()
+      setItems(itemsFromServer)
     }
 
-    getTasks()
+    getData()
   }, [])
 
-  // Fetch Tasks
-  const fetchTasks = async () => {
-    const res = await fetch('http://localhost:5000/tasks')
-    const data = await res.json()
+  // reworked
+  const fetchItems = async () => {
+    const itemsRes = await fetch('http://localhost:5000/items')
+    const itemsData = await itemsRes.json()
 
-    return data
+    return itemsData
   }
 
-  // Fetch Task
-  const fetchTask = async (id) => {
-    const res = await fetch(`http://localhost:5000/tasks/${id}`)
-    const data = await res.json()
+  // reworked
+  const fetchCategories = async () => {
+    const categoriesRes = await fetch('http://localhost:5000/categories')
+    const categoriesData = await categoriesRes.json()
 
-    return data
+    return categoriesData
   }
 
-  // Add Item
-  const addItem = async (task) => {
-    const res = await fetch('http://localhost:5000/tasks', {
+  // reworked
+  const addItem = async (item) => {
+    const res = await fetch('http://localhost:5000/items', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
       },
-      body: JSON.stringify(task),
+      body: JSON.stringify(item),
     })
 
     const data = await res.json()
 
-    setTasks([...tasks, data])
+    setItems([...items, data])
 
     // const id = Math.floor(Math.random() * 10000) + 1
     // const newTask = { id, ...task }
     // setTasks([...tasks, newTask])
   }
 
-  // Delete Task
-  const deleteTask = async (id) => {
-    const res = await fetch(`http://localhost:5000/tasks/${id}`, {
-      method: 'DELETE',
-    })
-    //We should control the response status to decide if we will change the state or not.
-    res.status === 200
-      ? setTasks(tasks.filter((task) => task.id !== id))
-      : alert('Error Deleting This Task')
-  }
-
-  // Toggle Reminder
-  const toggleReminder = async (id) => {
-    const taskToToggle = await fetchTask(id)
-    const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder }
-
-    const res = await fetch(`http://localhost:5000/tasks/${id}`, {
-      method: 'PUT',
+  // reworked
+  const addCategory = async (category) => {
+    const res = await fetch('http://localhost:5000/categories', {
+      method: 'POST',
       headers: {
         'Content-type': 'application/json',
       },
-      body: JSON.stringify(updTask),
+      body: JSON.stringify(category),
     })
 
     const data = await res.json()
 
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, reminder: data.reminder } : task
+    setCategories([...categories, data])
+  }
+
+  // Delete Task, probably fine, no delete item currently
+  const deleteCategory = async (id) => {
+    const res = await fetch(`http://localhost:5000/categories/${id}`, {
+      method: 'DELETE',
+    })
+    //We should control the response status to decide if we will change the state or not.
+    res.status === 200
+      ? setCategories(categories.filter((category) => category.id !== id))
+      : alert('Error Deleting This Category')
+  }
+
+  // Toggle Reminder
+  /*const toggleReminder = async (id) => {
+    const categoryToToggle = await fetchCategories(id)
+    const updCategory = { ...categoryToToggle, reminder: !categoryToToggle.reminder }
+
+    const res = await fetch(`http://localhost:5000/categories/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(updCategory),
+    })
+
+    const data = await res.json()
+
+    setCategories(
+      categories.map((category) =>
+        category.id === id ? { ...categories } : categories
       )
     )
-  }
+  }*/
 
   return (
     <Router>
       <div className='container'>
         <Header
-          onAdd={() => setShowAddItem(!showAddItem)}
+          onAddItem={() => setShowAddItem(!showAddItem)}
+          onAddCategory={() => setShowAddCat(!showAddCat)}
           showAdd={showAddItem}
+          showCat={showAddCat}
         />
         <Routes>
           <Route
             path='/'
             element={
               <>
-                {showAddItem && <AddItem onAdd={addItem} />}
-                {tasks.length > 0 ? (
-                  <Category
-                    tasks={tasks}
-                    onDelete={deleteTask}
-                    onToggle={toggleReminder}
+                {showAddItem && <AddItem onAddItem={addItem} />}
+                {showAddCat && <AddCategory onAddCategory={addCategory} />}
+                {categories.length > 0 ? (
+                  <List
+                    categories={categories}
+                    items={items}
+                    onDelete={deleteCategory}
                   />
                 ) : (
-                  'No Tasks To Show'
+                  'No Items To Show'
                 )}
               </>
             }
@@ -119,5 +144,138 @@ const App = () => {
     </Router>
   )
 }
+
+/*const App = () => {
+  const [showAddItem, setShowAddItem] = useState(false)
+  const [showAddCat, setShowAddCat] = useState(false)
+  const [categories, setCategories] = useState([])
+
+  useEffect(() => {
+    const getCategories = async () => {
+      const categoriesFromServer = await fetchCategories()
+      setCategories(categoriesFromServer)
+    }
+
+    getCategories()
+  }, [])
+
+  // Fetch Categories
+  const fetchCategories = async () => {
+    const res = await fetch('http://localhost:5000/categories')
+    const data = await res.json()
+
+    return data
+  }
+
+  // Fetch Categories
+  const fetchTask = async (id) => {
+    const res = await fetch(`http://localhost:5000/tasks/${id}`)
+    const data = await res.json()
+
+    return data
+  }
+
+  // Add Item
+  const addItem = async (item) => {
+    const res = await fetch('http://localhost:5000/tasks', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(item),
+    })
+
+    const data = await res.json()
+
+    setCategories([...categories, data])
+
+    // const id = Math.floor(Math.random() * 10000) + 1
+    // const newTask = { id, ...task }
+    // setTasks([...tasks, newTask])
+  }
+
+  // Create new grocery category
+  const addCategory = async (category) => {
+    const res = await fetch('http://localhost:5000/categories', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(category),
+    })
+
+    const data = await res.json()
+
+    setCategories([...categories, data])
+  }
+
+  // Delete Task
+  const deleteCategory = async (id) => {
+    const res = await fetch(`http://localhost:5000/categories/${id}`, {
+      method: 'DELETE',
+    })
+    //We should control the response status to decide if we will change the state or not.
+    res.status === 200
+      ? setCategories(categories.filter((category) => category.id !== id))
+      : alert('Error Deleting This Category')
+  }
+
+  // Toggle Reminder
+  const toggleReminder = async (id) => {
+    const categoryToToggle = await fetchCategories(id)
+    const updCategory = { ...categoryToToggle, reminder: !categoryToToggle.reminder }
+
+    const res = await fetch(`http://localhost:5000/categories/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(updCategory),
+    })
+
+    const data = await res.json()
+
+    setCategories(
+      categories.map((category) =>
+        category.id === id ? { ...categories, reminder: data.reminder } : categories
+      )
+    )
+  }
+
+  return (
+    <Router>
+      <div className='container'>
+        <Header
+          onAdd={() => setShowAddItem(!showAddItem)}
+          onAddCat={() => setShowAddCat(!showAddCat)}
+          showAdd={showAddItem}
+          showCat={showAddCat}
+        />
+        <Routes>
+          <Route
+            path='/'
+            element={
+              <>
+                {showAddItem && <AddItem onAdd={addItem} />}
+                {showAddCat && <AddCategory onAddCat={addCategory} />}
+                {categories.length > 0 ? (
+                  <List
+                    categories={categories}
+                    onDelete={deleteCategory}
+                    onToggle={toggleReminder}
+                  />
+                ) : (
+                  'No Items To Show'
+                )}
+              </>
+            }
+          />
+          <Route path='/about' element={<About />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
+  )
+}*/
 
 export default App

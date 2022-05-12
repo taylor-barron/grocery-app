@@ -1,22 +1,28 @@
 {
-  "tasks": [
+  "items": [
     {
-      "text": "hi",
-      "day": "hi",
-      "reminder": false,
-      "id": 1
+      "id": 1,
+      "item": "hot dogs",
+      "category": "Meat & Seafood",
+      "frequency": true,
+      "completed": false
     },
     {
-      "text": "hey",
-      "day": "hey",
-      "reminder": true,
-      "id": 2
+      "id": 2,
+      "item": "lettuce",
+      "category": "Produce",
+      "frequency": true,
+      "completed": false
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "category": "Meat & Seafood"
     },
     {
-      "text": "sup",
-      "day": "sup",
-      "reminder": false,
-      "id": 3
+      "id": 2,
+      "category": "Produce"
     }
   ]
 }
