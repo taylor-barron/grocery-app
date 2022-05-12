@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { useLocation } from 'react-router-dom'
 import Button from './Button'
 
-const Header = ({ title, onAdd, showAdd, onAddCat, showCat }) => {
+const Header = ({ title, onAddItem, showItem, onAddCategory, showCat }) => {
   const location = useLocation()
 
   return (
@@ -13,11 +13,11 @@ const Header = ({ title, onAdd, showAdd, onAddCat, showCat }) => {
         <Button
             color={showCat ? 'blue' : 'purple'}
             text={showCat ? 'Close' : 'Add Category'}
-            onClick={onAddCat} />
+            onClick={onAddCategory} />
         <Button
-            color={showAdd ? 'red' : 'green'}
-            text={showAdd ? 'Close' : 'Add Item'}
-            onClick={onAdd}
+            color={showItem ? 'red' : 'green'}
+            text={showItem ? 'Close' : 'Add Item'}
+            onClick={onAddItem}
         />
         </div>
       )}

@@ -115,7 +115,7 @@ const App = () => {
         <Header
           onAddItem={() => setShowAddItem(!showAddItem)}
           onAddCategory={() => setShowAddCat(!showAddCat)}
-          showAdd={showAddItem}
+          showItem={showAddItem}
           showCat={showAddCat}
         />
         <Routes>

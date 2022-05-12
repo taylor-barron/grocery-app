@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const AddItem = ({ onAdd }) => {
+const AddItem = ({ onAddItem }) => {
   const [item, setItem] = useState('')
   const [category, setCategory] = useState('')
   const [frequency, setFrequency] = useState(false)
@@ -18,7 +18,7 @@ const AddItem = ({ onAdd }) => {
       return
     }
 
-    onAdd({ item, category, frequency, completed })
+    onAddItem({ item, category, frequency, completed })
 
     setItem('')
     setCategory('')
