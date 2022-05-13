@@ -137,9 +137,21 @@ const App = () => {
     <Router>
       <div className='container'>
         <Header
-          onAddItem={() => setShowAddItem(!showAddItem)}
-          onAddCategory={() => setShowAddCat(!showAddCat)}
-          onDeleteOrShop={() => setShowDeleteOrShop(!showDeleteOrShop)}
+          onAddItem={() => {
+            setShowAddItem(!showAddItem)
+            setShowAddCat(false)
+            setShowDeleteOrShop(false)
+          }}
+          onAddCategory={() => {
+            setShowAddCat(!showAddCat)
+            setShowAddItem(false)
+            setShowDeleteOrShop(false)
+          }}
+          onDeleteOrShop={() => {
+            setShowDeleteOrShop(!showDeleteOrShop)
+            setShowAddCat(false)
+            setShowAddItem(false)
+          }}
           showItem={showAddItem}
           showCat={showAddCat}
           showDeleteOrShop={showDeleteOrShop}
