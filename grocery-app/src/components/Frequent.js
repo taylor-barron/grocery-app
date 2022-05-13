@@ -1,4 +1,4 @@
-import Item from './Item'
+import CompletedItem from './CompletedItem'
 
 const Frequent = ({ items, mode, onShoppingFaItem }) => {
 
@@ -9,7 +9,7 @@ const Frequent = ({ items, mode, onShoppingFaItem }) => {
             <h2 className='completed-h2'>Frequent Purchases</h2>
             <hr></hr>
             {frequentCompletedItems.map((item, index) => (
-                <Item key={index} item={item} mode={mode} onShoppingFaItem={onShoppingFaItem} />
+                <CompletedItem key={index} item={item} mode={mode} onShoppingFaItem={onShoppingFaItem} />
             ))}
             <br></br>
         </>

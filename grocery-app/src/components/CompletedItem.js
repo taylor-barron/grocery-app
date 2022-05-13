@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Button from './Button'
-import { FaSquare, FaTimes } from 'react-icons/fa'
+import { FaCheckSquare, FaTimes } from 'react-icons/fa'
 
 const Item = ({ item, mode, onShoppingFaItem, onEditFaItem, editItem }) => {
   const [showEditItem, setShowEditItem] = useState(false)
@@ -24,7 +24,7 @@ const Item = ({ item, mode, onShoppingFaItem, onEditFaItem, editItem }) => {
         //onDoubleClick={() => onToggle(item.id)}
       >
         <p>{item.item}{' '}</p>
-        <FaSquare
+        <FaCheckSquare
         style={{ color: 'steelblue', cursor: 'pointer'}}
         onClick={() => onShoppingFaItem(item.id)}
         />

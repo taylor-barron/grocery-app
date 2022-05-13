@@ -18,15 +18,36 @@
       "item": "Chili",
       "category": "Canned Goods",
       "frequency": true,
-      "completed": false,
+      "completed": true,
       "id": 3
     },
     {
       "item": "Steak",
       "category": "Meat & Seafood",
       "frequency": false,
-      "completed": false,
+      "completed": true,
       "id": 4
+    },
+    {
+      "item": "carrots",
+      "category": "Produce",
+      "frequency": false,
+      "completed": false,
+      "id": 5
+    },
+    {
+      "item": "chicken",
+      "category": "Meat & Seafood",
+      "frequency": true,
+      "completed": true,
+      "id": 6
+    },
+    {
+      "item": "Soup",
+      "category": "Canned Goods",
+      "frequency": true,
+      "completed": false,
+      "id": 7
     }
   ],
   "categories": [

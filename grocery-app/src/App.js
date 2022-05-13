@@ -129,13 +129,9 @@ const App = () => {
     }
 
     getData()
-
-    /*setCategories(
-      categories.map((category) =>
-        category.id === id ? { ...categories } : categories
-      )
-    )*/
   }
+
+  // Edit item.item and item.category
 
   return (
     <Router>
@@ -153,7 +149,7 @@ const App = () => {
             path='/'
             element={
               <>
-                {showAddItem && <AddItem onAddItem={addItem} />}
+                {showAddItem && <AddItem onAddItem={addItem} categories={categories} />}
                 {showAddCat && <AddCategory onAddCategory={addCategory} />}
                 {categories.length > 0 ? (
                   <List

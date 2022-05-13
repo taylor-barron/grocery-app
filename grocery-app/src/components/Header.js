@@ -13,16 +13,20 @@ const Header = ({ title, onAddItem, showItem, onAddCategory, showCat, onDeleteOr
         <Button
             color={showCat ? 'blue' : 'purple'}
             text={showCat ? 'Close' : 'Add Category'}
-            onClick={onAddCategory} />
+            onClick={onAddCategory}
+            buttonClass='btn'
+        />
         <Button
             color={showItem ? 'red' : 'green'}
             text={showItem ? 'Close' : 'Add Item'}
             onClick={onAddItem}
+            buttonClass='btn'
         />
         <Button
           color={showDeleteOrShop ? 'black' : 'brown'}
           text={showDeleteOrShop ? 'Keep Shopping' : 'Edit Items'}
           onClick={onDeleteOrShop}
+          buttonClass='btn'
         />
         </div>
       )}
