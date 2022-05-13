@@ -55,6 +55,10 @@ body {
   width: 100%;
 }
 
+.completed-h2 {
+  color: red;
+}
+
 .task {
   background: #f4f4f4;
   margin: 5px;

@@ -6,7 +6,7 @@ const Infrequent = ({ items, deleteOrShop }) => {
     const infrequentCompletedItems = infrequentItems.filter(infrequentItem => infrequentItem.completed === true)
     return (
         <>
-            <h2>Infrequent Purchases</h2>
+            <h2 className='completed-h2'>Infrequent Purchases</h2>
             <hr></hr>
             {infrequentCompletedItems.map((item, index) => (
                 <Item key={index} item={item} deleteOrShop={deleteOrShop} />
