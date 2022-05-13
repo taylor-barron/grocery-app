@@ -20,8 +20,8 @@ const Header = ({ title, onAddItem, showItem, onAddCategory, showCat, onDeleteOr
             onClick={onAddItem}
         />
         <Button
-          color={showDeleteOrShop ? 'brown' : 'black'}
-          text={showDeleteOrShop ? 'Keep Shopping' : 'Delete Stuff'}
+          color={showDeleteOrShop ? 'black' : 'brown'}
+          text={showDeleteOrShop ? 'Keep Shopping' : 'Edit Items'}
           onClick={onDeleteOrShop}
         />
         </div>

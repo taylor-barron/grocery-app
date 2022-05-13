@@ -1,6 +1,6 @@
 import Item from './Item'
 
-const Category = ({ category, items, deleteOrShop }) => {
+const Category = ({ category, items, mode, onShoppingFaItem, onFaCategory, onEditItem, onEditCategory }) => {
 
   const inCategory = items.filter(item => item.category === category.category)
   const inCategoryUnpurchased = inCategory.filter(inCategory => inCategory.completed === false)
@@ -9,7 +9,7 @@ const Category = ({ category, items, deleteOrShop }) => {
       <h2>{ category.category }{' '}</h2>
       <hr></hr>
       {inCategoryUnpurchased.map((item, index) => (
-        <Item key={index} item={item} deleteOrShop={deleteOrShop} />
+        <Item key={index} item={item} mode={mode} onShoppingFaItem={onShoppingFaItem} onEditItem={onEditItem} />
       ))}
       <br></br>
     </>

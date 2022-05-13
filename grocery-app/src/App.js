@@ -35,6 +35,13 @@ const App = () => {
     return itemsData
   }
 
+  const fetchItem = async (id) => {
+    const itemRes = await fetch(`http://localhost:5000/items/${id}`)
+    const itemData = await itemRes.json()
+
+    return itemData
+  }
+
   // reworked
   const fetchCategories = async () => {
     const categoriesRes = await fetch('http://localhost:5000/categories')
@@ -98,27 +105,37 @@ const App = () => {
       : alert('Error Deleting This Category')
   }
 
-  // Toggle Reminder
-  /*const toggleReminder = async (id) => {
-    const categoryToToggle = await fetchCategories(id)
-    const updCategory = { ...categoryToToggle, reminder: !categoryToToggle.reminder }
+  // Edit Completed function
+  const toggleCompleted = async (id) => {
+    const itemToToggle = await fetchItem(id)
+    const updateItem = { ...itemToToggle, completed: !itemToToggle.completed }
 
-    const res = await fetch(`http://localhost:5000/categories/${id}`, {
+    const res = await fetch(`http://localhost:5000/items/${id}`, {
       method: 'PUT',
       headers: {
         'Content-type': 'application/json',
       },
-      body: JSON.stringify(updCategory),
+      body: JSON.stringify(updateItem),
     })
 
     const data = await res.json()
 
-    setCategories(
+    
+    const getData = async () => {
+      const categoriesFromServer = await fetchCategories()
+      setCategories(categoriesFromServer)
+      const itemsFromServer = await fetchItems()
+      setItems(itemsFromServer)
+    }
+
+    getData()
+
+    /*setCategories(
       categories.map((category) =>
         category.id === id ? { ...categories } : categories
       )
-    )
-  }*/
+    )*/
+  }
 
   return (
     <Router>
@@ -142,7 +159,13 @@ const App = () => {
                   <List
                     categories={categories}
                     items={items}
-                    onDelete={deleteCategory}
+                    // default is false, shopping. True is delete/edit mode
+                    mode={showDeleteOrShop}
+                    onShoppingFaItem={toggleCompleted}
+                    //onEditingFaItem={}
+                    onFaCategory={deleteCategory}
+                    //onEditItem={}
+                    //onEditCategory={}
                   />
                 ) : (
                   'No Items To Show'
