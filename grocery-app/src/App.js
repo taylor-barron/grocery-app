@@ -84,6 +84,34 @@ const App = () => {
     setCategories([...categories, data])
   }
 
+  // EDIT FUNCTIONS
+  // onEditItem
+  const onEditItem = async (id, newItem, newCategory, newFrequency, newCompleted) => {
+    const itemToEdit = await fetchItem(id)
+    console.log(itemToEdit)
+    //const updateItem = { ...itemToEdit, completed: !itemToToggle.completed  }
+    const updateItem = { id: id, item: newItem, category: newCategory, frequency: newFrequency, completed: newCompleted }
+
+    const res = await fetch(`http://localhost:5000/items/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(updateItem),
+    })
+
+    const data = await res.json()
+
+    const getData = async () => {
+      const categoriesFromServer = await fetchCategories()
+      setCategories(categoriesFromServer)
+      const itemsFromServer = await fetchItems()
+      setItems(itemsFromServer)
+    }
+
+    getData()
+  }
+
   // Delete Task, probably fine, no delete item currently
   const deleteCategory = async (id) => {
     const res = await fetch(`http://localhost:5000/categories/${id}`, {
@@ -172,7 +200,7 @@ const App = () => {
                     onShoppingFaItem={toggleCompleted}
                     //onEditingFaItem={}
                     onFaCategory={deleteCategory}
-                    //onEditItem={}
+                    onEditItem={onEditItem}
                     //onEditCategory={}
                   />
                 ) : (

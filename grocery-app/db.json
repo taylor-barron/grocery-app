@@ -4,7 +4,7 @@
       "id": 1,
       "item": "hot dogs",
       "category": "Meat & Seafood",
-      "frequency": true,
+      "frequency": false,
       "completed": false
     },
     {
@@ -18,14 +18,14 @@
       "item": "Chili",
       "category": "Canned Goods",
       "frequency": true,
-      "completed": true,
+      "completed": false,
       "id": 3
     },
     {
       "item": "Steak",
       "category": "Meat & Seafood",
       "frequency": false,
-      "completed": true,
+      "completed": false,
       "id": 4
     },
     {
@@ -39,7 +39,7 @@
       "item": "chicken",
       "category": "Meat & Seafood",
       "frequency": true,
-      "completed": true,
+      "completed": false,
       "id": 6
     },
     {
@@ -48,6 +48,13 @@
       "frequency": true,
       "completed": false,
       "id": 7
+    },
+    {
+      "item": "Tricolor Rotini",
+      "category": "International Foods",
+      "frequency": true,
+      "completed": false,
+      "id": 8
     }
   ],
   "categories": [
@@ -62,6 +69,10 @@
     {
       "category": "Canned Goods",
       "id": 3
+    },
+    {
+      "category": "International Foods",
+      "id": 4
     }
   ]
 }

@@ -70,20 +70,3 @@ const AddItem = ({ onAddItem, categories }) => {
 }
 
 export default AddItem
-
-/*
-
-        //<label>Category</label>
-          <select>
-            <option disabled default>Select Category</option>
-            {categories.array.forEach(element => {
-              <option value={element.category}> {element.category} </option>
-            })}
-          </select>
-        /*<input
-          type='text'
-          placeholder='Category'
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        />
-*/

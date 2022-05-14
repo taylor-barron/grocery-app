@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import Button from './Button'
+import EditItem from './EditItem'
 import { FaSquare, FaTimes } from 'react-icons/fa'
 
-const Item = ({ item, mode, onShoppingFaItem, onEditFaItem, editItem }) => {
+const Item = ({ item, categories, mode, onShoppingFaItem, onEditItem }) => {
   const [showEditItem, setShowEditItem] = useState(false)
 
   /*
@@ -31,25 +32,28 @@ const Item = ({ item, mode, onShoppingFaItem, onEditFaItem, editItem }) => {
       </div>
     )} else {
       return (
-        <div className='item'
-          //className={`item ${item.reminder && 'reminder'}`}
-          //onDoubleClick={() => onToggle(item.id)}
-        >
-          <div className='editItemDiv'>
-            <p>{item.item}{' '}</p>
-            <Button
-              color={showEditItem ? 'red' : 'blue'}
-              text={showEditItem ? 'close' : 'edit'}
-              onClick={() => {
-                setShowEditItem(!showEditItem)
-              }}
-              buttonClass="editItemButton"
+        <div className='edit-item-container'>
+          <div className='item'
+            //className={`item ${item.reminder && 'reminder'}`}
+            //onDoubleClick={() => onToggle(item.id)}
+          >
+            <div className='editItemDiv'>
+              <p>{item.item}{' '}</p>
+              <Button
+                color={showEditItem ? 'red' : 'blue'}
+                text={showEditItem ? 'close' : 'edit'}
+                onClick={() => {
+                  setShowEditItem(!showEditItem)
+                }}
+                buttonClass="editItemButton"
+              />
+            </div>
+            <FaTimes
+              style={{ color: 'red', cursor: 'pointer' }}
+              //onClick={() => deleteItem(item.id)}
             />
           </div>
-          <FaTimes
-            style={{ color: 'red', cursor: 'pointer' }}
-            //onClick={() => deleteItem(item.id)}
-          />
+          {showEditItem && <EditItem onEditItem={onEditItem} item={item} categories={categories} />}
         </div>        
       )
     }

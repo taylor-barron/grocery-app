@@ -118,6 +118,11 @@ body {
   align-items: center;
 }
 
+.edit-item-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .editItemDiv {
   display: flex;
   flex-direction: row;

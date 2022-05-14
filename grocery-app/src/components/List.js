@@ -6,7 +6,7 @@ const List = ({ categories, items, mode, onShoppingFaItem, onFaCategory, onEditI
   return (
     <>
       {categories.map((category, index) => (
-        <Category key={index} category={category} items={items} mode={mode} onShoppingFaItem={onShoppingFaItem} onFaCategory={onFaCategory} onEditItem={onEditItem} onEditCategory={onEditCategory} />
+        <Category key={index} categories={categories} category={category} items={items} mode={mode} onShoppingFaItem={onShoppingFaItem} onFaCategory={onFaCategory} onEditItem={onEditItem} onEditCategory={onEditCategory} />
       ))}
       <Frequent items={items} mode={mode} onShoppingFaItem={onShoppingFaItem} />
       <Infrequent items={items} mode={mode} onShoppingFaItem={onShoppingFaItem} />
