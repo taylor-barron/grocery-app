@@ -21,23 +21,19 @@ const Item = ({ item, categories, mode, onShoppingFaItem, onEditItem }) => {
   if (!mode) {
     // shopping mode
     return (
-      <div className='item'
-        //className={`item ${item.reminder && 'reminder'}`}
-        //onDoubleClick={() => onToggle(item.id)}
-      >
-        <p>{item.item}{' '}</p>
-        <FaSquare
-        style={{ color: 'steelblue', cursor: 'pointer'}}
-        onClick={() => onShoppingFaItem(item.id)}
-        />
+      <div>
+        <div className='item'>
+          <p className='grocery-item'>{item.item}{' '}</p>
+          <FaSquare
+            style={{ color: 'steelblue', cursor: 'pointer'}}
+            onClick={() => onShoppingFaItem(item.id)}
+          />
+        </div>
+        <hr></hr>
       </div>
     )} else {
       return (
         <div className='edit-item-container'>
-          <div className='item'
-            //className={`item ${item.reminder && 'reminder'}`}
-            //onDoubleClick={() => onToggle(item.id)}
-          >
             <div className='editItemDiv'>
               <p>{item.item}{' '}</p>
               <Button
@@ -50,11 +46,7 @@ const Item = ({ item, categories, mode, onShoppingFaItem, onEditItem }) => {
                 buttonClass="editItemButton"
               />
             </div>
-            <FaTimes
-              style={{ color: 'red', cursor: 'pointer' }}
-              //onClick={() => deleteItem(item.id)}
-            />
-          </div>
+            <hr></hr>
           {(showEditItem && clicks == 1) && <EditItem onEditItem={onEditItem} item={item} categories={categories} />}
         </div>        
       )
@@ -76,6 +68,10 @@ const Item = ({ item, categories, mode, onShoppingFaItem, onEditItem }) => {
       <FaCheckSquare style={{ color: 'steelblue', cursor: 'pointer'}} />
     </div>
   )*/
+            /*<FaTimes
+              style={{ color: 'red', cursor: 'pointer' }}
+              //onClick={() => deleteItem(item.id)}
+            />*/
 }
 
 export default Item

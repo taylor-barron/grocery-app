@@ -118,6 +118,10 @@ body {
   align-items: center;
 }
 
+.grocery-item {
+  margin: 7px 0px 5px 0px;
+}
+
 .edit-item-container {
   display: flex;
   flex-direction: column;
@@ -127,6 +131,7 @@ body {
   display: flex;
   flex-direction: row;
   align-items: baseline;
+  justify-content: space-between;
 }
 
 .editItemButton {

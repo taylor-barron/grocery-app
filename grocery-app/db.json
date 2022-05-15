@@ -52,7 +52,7 @@
     {
       "id": 8,
       "item": "Tricolor Rotini",
-      "category": "International Food",
+      "category": "International Foods",
       "frequency": true,
       "completed": false
     },
@@ -93,7 +93,7 @@
     },
     {
       "id": 4,
-      "category": "International Food"
+      "category": "International Foods"
     },
     {
       "id": 5,
