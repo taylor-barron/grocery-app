@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Button from './Button'
 import EditItem from './EditItem'
 import { FaSquare, FaTimes } from 'react-icons/fa'
 
 const Item = ({ item, categories, mode, onShoppingFaItem, onEditItem }) => {
   const [showEditItem, setShowEditItem] = useState(false)
+  const [clicks, setClick] = useState(0)
 
   /*
   *  item is the item json info
@@ -44,6 +45,7 @@ const Item = ({ item, categories, mode, onShoppingFaItem, onEditItem }) => {
                 text={showEditItem ? 'close' : 'edit'}
                 onClick={() => {
                   setShowEditItem(!showEditItem)
+                  setClick(1)
                 }}
                 buttonClass="editItemButton"
               />
@@ -53,7 +55,7 @@ const Item = ({ item, categories, mode, onShoppingFaItem, onEditItem }) => {
               //onClick={() => deleteItem(item.id)}
             />
           </div>
-          {showEditItem && <EditItem onEditItem={onEditItem} item={item} categories={categories} />}
+          {(showEditItem && clicks == 1) && <EditItem onEditItem={onEditItem} item={item} categories={categories} />}
         </div>        
       )
     }

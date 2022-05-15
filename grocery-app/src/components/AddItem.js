@@ -38,11 +38,11 @@ const AddItem = ({ onAddItem, categories }) => {
         />
       </div>
       <div className='form-control'>
-          <label for='category'>Choose Category</label>
+          <label htmlFor='category'>Choose Category</label>
           <select className='select' name='category' id='categorySelect' 
             onChange={(e) => setCategory(e.target.value)}>
             <option value={"Select a category"} default hidden disabled>Select a Category</option>
-            {categories.map((categories) => <option value={categories.category}>{categories.category}</option>)}
+            {categories.map((categories, index) => <option key={index} value={categories.category}>{categories.category}</option>)}
           </select>
       </div>
       <div className='form-control form-control-check'>

@@ -15,7 +15,7 @@ const App = () => {
   const [categories, setCategories] = useState([])
   const [items, setItems] = useState([])
 
-  // reworked, potential problem
+  // reworked
   useEffect(() => {
     const getData = async () => {
       const categoriesFromServer = await fetchCategories()
@@ -35,6 +35,7 @@ const App = () => {
     return itemsData
   }
 
+  // Fetch single item
   const fetchItem = async (id) => {
     const itemRes = await fetch(`http://localhost:5000/items/${id}`)
     const itemData = await itemRes.json()
@@ -48,6 +49,14 @@ const App = () => {
     const categoriesData = await categoriesRes.json()
 
     return categoriesData
+  }
+
+  // fetch single category
+  const fetchCategory = async (id) => {
+    const catRes = await fetch(`http://localhost:5000/categories/${id}`)
+    const catData = await catRes.json()
+
+    return catData
   }
 
   // reworked
@@ -64,9 +73,6 @@ const App = () => {
 
     setItems([...items, data])
 
-    // const id = Math.floor(Math.random() * 10000) + 1
-    // const newTask = { id, ...task }
-    // setTasks([...tasks, newTask])
   }
 
   // reworked
@@ -85,11 +91,10 @@ const App = () => {
   }
 
   // EDIT FUNCTIONS
+
   // onEditItem
   const onEditItem = async (id, newItem, newCategory, newFrequency, newCompleted) => {
-    const itemToEdit = await fetchItem(id)
-    console.log(itemToEdit)
-    //const updateItem = { ...itemToEdit, completed: !itemToToggle.completed  }
+    //const itemToEdit = await fetchItem(id)
     const updateItem = { id: id, item: newItem, category: newCategory, frequency: newFrequency, completed: newCompleted }
 
     const res = await fetch(`http://localhost:5000/items/${id}`, {
@@ -110,6 +115,51 @@ const App = () => {
     }
 
     getData()
+  }
+
+  // Edit Category
+  const onEditCategory = async (id, newCategory) => {
+    const categoryToEdit = await fetchCategory(id)
+    const updateCategory = {id: id, category: newCategory}
+
+    const res = await fetch(`http://localhost:5000/categories/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(updateCategory),
+    })
+    
+    // update all items to new category
+    const allItems = await fetchItems()
+    const inCategory = allItems.filter(item => item.category === categoryToEdit.category)
+
+    /*for (var i = 0; i < inCategory.length; i++) {
+      onEditItem(inCategory[i].id, inCategory[i].item, newCategory, inCategory[i].frequency, inCategory[i].completed)  
+    }*/
+    if (inCategory.length > 1) {
+      console.log(inCategory)
+      // Object.keys(inCategory)
+      // inCategory.array.forEach(element => {
+      Object.values(inCategory).forEach(element => {
+        onEditItem(element.id, element.item, newCategory, element.frequency, element.completed)
+      });
+    } else if (inCategory.length == 1) {
+      console.log(inCategory)
+      const oneItem = inCategory[0]
+      onEditItem(oneItem.id, oneItem.item, newCategory, oneItem.frequency, oneItem.completed)
+    }
+
+    // Display changes
+    const getData = async () => {
+      const categoriesFromServer = await fetchCategories()
+      setCategories(categoriesFromServer)
+      const itemsFromServer = await fetchItems()
+      setItems(itemsFromServer)
+    }
+
+    getData()
+    setShowDeleteOrShop(false)
   }
 
   // Delete Task, probably fine, no delete item currently
@@ -201,7 +251,7 @@ const App = () => {
                     //onEditingFaItem={}
                     onFaCategory={deleteCategory}
                     onEditItem={onEditItem}
-                    //onEditCategory={}
+                    onEditCategory={onEditCategory}
                   />
                 ) : (
                   'No Items To Show'

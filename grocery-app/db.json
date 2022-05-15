@@ -15,46 +15,67 @@
       "completed": false
     },
     {
+      "id": 3,
       "item": "Chili",
       "category": "Canned Goods",
       "frequency": true,
-      "completed": false,
-      "id": 3
+      "completed": false
     },
     {
+      "id": 4,
       "item": "Steak",
       "category": "Meat & Seafood",
       "frequency": false,
-      "completed": false,
-      "id": 4
+      "completed": false
     },
     {
+      "id": 5,
       "item": "carrots",
       "category": "Produce",
       "frequency": false,
-      "completed": false,
-      "id": 5
+      "completed": false
     },
     {
-      "item": "chicken",
+      "id": 6,
+      "item": "Chicken",
       "category": "Meat & Seafood",
       "frequency": true,
-      "completed": false,
-      "id": 6
+      "completed": false
     },
     {
+      "id": 7,
       "item": "Soup",
       "category": "Canned Goods",
       "frequency": true,
-      "completed": false,
-      "id": 7
+      "completed": false
     },
     {
+      "id": 8,
       "item": "Tricolor Rotini",
-      "category": "International Foods",
+      "category": "International Food",
       "frequency": true,
-      "completed": false,
-      "id": 8
+      "completed": false
+    },
+    {
+      "id": 9,
+      "item": "Donuts",
+      "category": "Bad Food",
+      "frequency": false,
+      "completed": false
+    },
+    {
+      "id": 10,
+      "item": "Beef 90/10",
+      "category": "Meat & Seafood",
+      "frequency": true,
+      "completed": false
+    },
+    {
+      "id": 11,
+      "item": "Salmon",
+      "category": "Meat & Seafood",
+      "frequency": false,
+      "completed": false
     }
   ],
   "categories": [
@@ -67,12 +88,16 @@
       "category": "Produce"
     },
     {
-      "category": "Canned Goods",
-      "id": 3
+      "id": 3,
+      "category": "Canned Goods"
     },
     {
-      "category": "International Foods",
-      "id": 4
+      "id": 4,
+      "category": "International Food"
+    },
+    {
+      "id": 5,
+      "category": "Bad Food"
     }
   ]
 }
