@@ -4,7 +4,8 @@ const EditCategory = ({ onEditCategory, category }) => {
     const [categoryName, setCategoryName] = useState(category.category)
 
     const onSubmit = (e) => {
-        e.preventDefault()
+        //e.preventDefault()
+        // pass edit item function and items, complete item category changes here and refresh page on change
 
         if (!categoryName) {
             alert('Please enter a category name')
@@ -28,7 +29,8 @@ const EditCategory = ({ onEditCategory, category }) => {
             />
           </div>  
           <input type='submit' value='Edit Category' className='btn btn-block' />
-        </form>)
+        </form>
+    )
 }
 
 export default EditCategory

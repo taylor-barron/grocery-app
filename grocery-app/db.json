@@ -4,7 +4,7 @@
       "id": 1,
       "item": "hot dogs",
       "category": "Meat & Seafood",
-      "frequency": false,
+      "frequency": true,
       "completed": false
     },
     {
@@ -23,7 +23,7 @@
     },
     {
       "id": 4,
-      "item": "Steak",
+      "item": "steak",
       "category": "Meat & Seafood",
       "frequency": false,
       "completed": false
@@ -85,7 +85,7 @@
     },
     {
       "id": 2,
-      "category": "Produce"
+      "category": "Produc"
     },
     {
       "id": 3,

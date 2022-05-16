@@ -8,7 +8,6 @@ const EditItem = ({ onEditItem, item, categories }) => {
     const [groceryCompleted, setGroceryCompleted] = useState(item.completed)
 
     const onSubmit = (e) => {
-        // Chose to refresh page here or else show edit state can make a mess of the page quickly
         //e.preventDefault()
 
         if (!groceryItem) {

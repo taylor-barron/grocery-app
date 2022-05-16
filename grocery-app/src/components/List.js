@@ -10,6 +10,7 @@ const List = ({ categories, items, mode, onShoppingFaItem, onFaCategory, onEditI
       ))}
       <Frequent items={items} mode={mode} onShoppingFaItem={onShoppingFaItem} />
       <Infrequent items={items} mode={mode} onShoppingFaItem={onShoppingFaItem} />
+      <Category categories={categories} category="" items={items} mode={mode} onShoppingFaItem={onShoppingFaItem} onFaCategory={onFaCategory} onEditItem={onEditItem} onEditCategory={onEditCategory} />
     </>
   )
 }

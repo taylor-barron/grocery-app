@@ -162,28 +162,7 @@ const App = () => {
     setShowDeleteOrShop(false)
   }
 
-  // Delete Task, probably fine, no delete item currently
-  const deleteCategory = async (id) => {
-    const res = await fetch(`http://localhost:5000/categories/${id}`, {
-      method: 'DELETE',
-    })
-    //We should control the response status to decide if we will change the state or not.
-    res.status === 200
-      ? setCategories(categories.filter((category) => category.id !== id))
-      : alert('Error Deleting This Category')
-  }
-
-  const deleteItem = async (id) => {
-    const res = await fetch(`http://localhost:5000/items/${id}`, {
-      method: 'DELETE',
-    })
-    //We should control the response status to decide if we will change the state or not.
-    res.status === 200
-      ? setCategories(categories.filter((category) => category.id !== id))
-      : alert('Error Deleting This Category')
-  }
-
-  // Edit Completed function
+  // Edit completed attribute, ie move items between bought and category sections
   const toggleCompleted = async (id) => {
     const itemToToggle = await fetchItem(id)
     const updateItem = { ...itemToToggle, completed: !itemToToggle.completed }
@@ -207,6 +186,56 @@ const App = () => {
     }
 
     getData()
+  }
+
+  // DELETE's
+
+  const deleteItem = async (id) => {
+    const res = await fetch(`http://localhost:5000/items/${id}`, {
+      method: 'DELETE',
+    })
+    //We should control the response status to decide if we will change the state or not.
+    res.status === 200
+      ? setCategories(categories.filter((category) => category.id !== id))
+      : alert('Error Deleting This Category')
+  }
+
+  // Delete Task, probably fine, no delete item currently
+  const deleteCategory = async (id) => {
+    const categoryToDelete = fetchCategory(id)
+    const res = await fetch(`http://localhost:5000/categories/${id}`, {
+      method: 'DELETE',
+    })
+    //We should control the response status to decide if we will change the state or not.
+    res.status === 200
+      ? setCategories(categories.filter((category) => category.id !== id))
+      : alert('Error Deleting This Category')
+    
+      // update all items to new category
+      const allItems = await fetchItems()
+      const inCategory = allItems.filter(item => item.category === categoryToDelete.category)
+  
+      if (inCategory.length > 1) {
+        console.log(inCategory)
+        Object.values(inCategory).forEach(element => {
+          onEditItem(element.id, element.item, "", element.frequency, element.completed)
+        });
+      } else if (inCategory.length == 1) {
+        console.log(inCategory)
+        const oneItem = inCategory[0]
+        onEditItem(oneItem.id, oneItem.item, "", oneItem.frequency, oneItem.completed)
+      }
+  
+      // Display changes
+      const getData = async () => {
+        const categoriesFromServer = await fetchCategories()
+        setCategories(categoriesFromServer)
+        const itemsFromServer = await fetchItems()
+        setItems(itemsFromServer)
+      }
+  
+      getData()
+      setShowDeleteOrShop(false)
   }
 
   // Edit item.item and item.category
