@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { useAuth0 } from '@auth0/auth0-react'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import List from './components/List'
@@ -7,6 +8,7 @@ import List from './components/List'
 import AddItem from './components/AddItem'
 import About from './components/About'
 import AddCategory from './components/AddCategory'
+import Profile from './components/Profile'
 
 const App = () => {
   const [showAddItem, setShowAddItem] = useState(false)
@@ -289,6 +291,7 @@ const App = () => {
             }
           />
           <Route path='/about' element={<About />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
         <Footer />
       </div>
