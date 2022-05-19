@@ -9,6 +9,7 @@ import AddItem from './components/AddItem'
 import About from './components/About'
 import AddCategory from './components/AddCategory'
 import Profile from './components/Profile'
+//import newUsersCategories from './backend/newUser'
 
 const App = () => {
   const [showAddItem, setShowAddItem] = useState(false)
