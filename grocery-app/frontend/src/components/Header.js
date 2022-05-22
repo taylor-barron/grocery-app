@@ -13,6 +13,11 @@ const Header = ({ title, onAddItem, showItem, onAddCategory, showCat, onDeleteOr
     return <div>Loading ...</div>
   }
 
+  /*
+        {showAddItem && <AddItem onAddItem={addItem} categories={categories} />}
+        {showAddCat && <AddCategory onAddCategory={addCategory} />}
+  */
+
   return (
     <header className='header'>
       <h1>{title}</h1>

@@ -4,7 +4,6 @@ const AddItem = ({ onAddItem, categories }) => {
   const [item, setItem] = useState('')
   const [category, setCategory] = useState('')
   const [frequency, setFrequency] = useState(false)
-  const [completed, setCompleted] = useState(false)
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -18,12 +17,11 @@ const AddItem = ({ onAddItem, categories }) => {
       return
     }
 
-    onAddItem({ item, category, frequency, completed })
+    onAddItem({ item, category, frequency })
 
     setItem('')
     setCategory('')
     setFrequency(false)
-    setCompleted(false)
   }
 
   return (
@@ -52,15 +50,6 @@ const AddItem = ({ onAddItem, categories }) => {
           checked={frequency}
           value={frequency}
           onChange={(e) => setFrequency(e.currentTarget.checked)}
-        />
-      </div>
-      <div className='form-control form-control-check'>
-        <label>Already Purchased</label>
-        <input
-          type='checkbox'
-          checked={completed}
-          value={completed}
-          onChange={(e) => setCompleted(e.currentTarget.checked)}
         />
       </div>
 

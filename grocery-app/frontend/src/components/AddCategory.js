@@ -1,19 +1,25 @@
 import { useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const AddCategory = ({ onAddCategory }) => {
     const [category, setCategory] = useState('')
+    const { user, isAuthenticated, isLoading } = useAuth0();
   
     const onSubmit = (e) => {
       e.preventDefault()
+      const email = user.email;
   
       if (!category) {
         alert('Please add a category')
         return
       }
+
+      const data = {category: category, email: email}
   
-      onAddCategory({ category })
+      onAddCategory({ email, category/*category, userEmail*/ })
   
       setCategory('')
+      //setEmail('')
     }
   
     return (
