@@ -1,42 +1,40 @@
 import React from "react";
-import { useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import { useState, useEffect } from "react";
+//import { useAuth0 } from "@auth0/auth0-react";
 
+import Header from "../components/Header";
+import AddItem from "../components/AddItem";
+import AddCategory from "../components/AddCategory";
 import List from "../components/List";
 import LogoutButton from "../components/LogoutButton";
 
-const Home = () => {
+const Home = ({user, isAuthenticated}) => {
     const [categories, setCategories] = useState([])
     const [items, setItems] = useState([])
+    const [showAddItem, setShowAddItem] = useState(false)
+    const [showAddCat, setShowAddCat] = useState(false)
     const [showDeleteOrShop, setShowDeleteOrShop] = useState(false)
-    const { user, isAuthenticated, isLoading } = useAuth0();
-  
-    if (isLoading) {
-      return <div>Loading ...</div>;
-    }
+    /*const { user, isAuthenticated, isLoading } = useAuth0();*/
+    const email = user.email;
 
-    // READ FUNCTIONS
+    // populate app TESTED
+    useEffect(() => {
+        const getData = async () => {
+          const categoriesFromServer = await fetchCategories(user.email)
+          setCategories(categoriesFromServer)
+          const itemsFromServer = await fetchItems(user.email)
+          setItems(itemsFromServer)
+        }
+        
+        getData()
+    }, [])
 
-    // Fetch single item
-    const fetchItem = async (id) => {
-        const itemRes = await fetch(`http://localhost:5000/items/${id}`)
-        const itemData = await itemRes.json()
+    // --------------------------------------- READS ------------------------------------------- //
 
-        return itemData
-    }
-
-    // fetch single category
-    const fetchCategory = async (id) => {
-        const catRes = await fetch(`http://localhost:5000/categories/${id}`)
-        const catData = await catRes.json()
-
-        return catData
-    }
-
-    // NEED env for server, Fetch categories to populate app
+    // gets all categories from server (needs to fetch from live server) TESTED
     const fetchCategories = async (email) => {
-        const userEmail = {"email": email}
-        const categoriesRes = await fetch('http://localhost:7500/getCategories', {
+        const userEmail = {email: email}
+        const categoriesRes = await fetch(process.env.REACT_APP_HEROKU+"getCategories", {
         method: 'POST',
         headers: {
             'Content-type': 'application/json',
@@ -49,32 +47,28 @@ const Home = () => {
         return categoriesData
     }
 
-    // reworked
+    // gets all items from server (needs to fetch from live server) TESTED
     const fetchItems = async (email) => {
-        const itemsRes = await fetch('http://localhost:5000/items')
+        const userEmail = {email: email}
+        const itemsRes = await fetch(process.env.REACT_APP_HEROKU+"getItems", {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+        },
+        body: JSON.stringify(userEmail),
+        })
+
         const itemsData = await itemsRes.json()
 
         return itemsData
     }
 
-    // function generates data for home page app
-    const getData = async (email) => {
-        const categoriesFromServer = await fetchCategories(email)
-        console.log(categoriesFromServer)
-        setCategories(categoriesFromServer)
-        const itemsFromServer = await fetchItems(email)
-        setItems(itemsFromServer)
-    }
+    // --------------------------------------- ADDS ---------------------------------------- //
 
-    const email = user.email;
-    getData(email)
-
-    // ADDS
-
-    // reworked
+    // TESTED
     const addCategory = async (email, category) => {
         const addCategory = { email: email, category: category}
-        const res = await fetch(/*process.env.REACT_APP_HEROKU+*/'https://grocery-app-tb.herokuapp.com/addCategory', {
+        const res = await fetch(process.env.REACT_APP_HEROKU+"addCategory", {
             method: 'POST',
             headers: {
             'Content-type': 'application/json',
@@ -82,22 +76,52 @@ const Home = () => {
             body: JSON.stringify(addCategory),
         })
 
-        const data = await res.json()
-        console.log(data)
+        setShowAddCat(false)
 
-        setCategories([...categories, data])
+        const getData = async (email) => {
+            const categoriesFromServer = await fetchCategories(email.email)
+            setCategories(categoriesFromServer)
+            const itemsFromServer = await fetchItems(email.email)
+            setItems(itemsFromServer)
+        }
+
+        getData(email)
     }
-    addCategory(email, "Hot food")
 
+    // TESTED
+    const addItem = async (email, item, category, frequency) => {
+        const itemToAdd = {email: email, item: item, category: category, frequency: frequency }
+        const res = await fetch(process.env.REACT_APP_HEROKU+"addItem", {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(itemToAdd),
+        })
+  
+        const data = await res.json()
+  
+        setShowAddItem(false)
+
+        const getData = async (email) => {
+            const categoriesFromServer = await fetchCategories(email.email)
+            setCategories(categoriesFromServer)
+            const itemsFromServer = await fetchItems(email.email)
+            setItems(itemsFromServer)
+        }
+
+        getData(email)
+    }
+    
     // EDITS
 
-    // onEditItem
-    const onEditItem = async (id, newItem, newCategory, newFrequency, newCompleted) => {
-        //const itemToEdit = await fetchItem(id)
-        const updateItem = { id: id, item: newItem, category: newCategory, frequency: newFrequency, completed: newCompleted }
+    // TESTED
+    const onEditItem = async (email, newItem, previousItem, newCategory, newFrequency, newCompleted) => {
+        
+        const updateItem = { email: email, item: newItem, previousItem: previousItem, category: newCategory, frequency: newFrequency, completed: newCompleted }
 
-        const res = await fetch(`http://localhost:5000/items/${id}`, {
-            method: 'PUT',
+        const res = await fetch(process.env.REACT_APP_HEROKU+"editItem", {
+            method: 'POST',
             headers: {
             'Content-type': 'application/json',
         },
@@ -106,145 +130,166 @@ const Home = () => {
 
         const data = await res.json()
 
-        /*const getData = async () => {
-            const categoriesFromServer = await fetchCategories()
+        const getData = async (email) => {
+            const categoriesFromServer = await fetchCategories(email)
             setCategories(categoriesFromServer)
-            const itemsFromServer = await fetchItems()
+            const itemsFromServer = await fetchItems(email)
             setItems(itemsFromServer)
-        }*/
+        }
 
-        getData()
+        getData(email)
     }
 
-    // Edit Category
-    const onEditCategory = async (id, newCategory) => {
-        const categoryToEdit = await fetchCategory(id)
-        const updateCategory = {id: id, category: newCategory}
+    // TESTED
+    const onEditCategory = async (email, newCategory, previousCategory, items) => {
+        const updateCategory = {email: email, newCategory: newCategory, previousCategory: previousCategory, items: items}
 
-        const res = await fetch(`http://localhost:5000/categories/${id}`, {
-            method: 'PUT',
+        const res = await fetch(process.env.REACT_APP_HEROKU+"editCategory", {
+            method: 'POST',
             headers: {
             'Content-type': 'application/json',
             },
             body: JSON.stringify(updateCategory),
-        })
-    
-        // update all items to new category
-        const allItems = await fetchItems()
-        const inCategory = allItems.filter(item => item.category === categoryToEdit.category)
-
-        /*for (var i = 0; i < inCategory.length; i++) {
-        onEditItem(inCategory[i].id, inCategory[i].item, newCategory, inCategory[i].frequency, inCategory[i].completed)  
-        }*/
-        if (inCategory.length > 1) {
-            console.log(inCategory)
-            // Object.keys(inCategory)
-            // inCategory.array.forEach(element => {
-            Object.values(inCategory).forEach(element => {
-            onEditItem(element.id, element.item, newCategory, element.frequency, element.completed)
-            });
-        } else if (inCategory.length == 1) {
-            console.log(inCategory)
-            const oneItem = inCategory[0]
-            onEditItem(oneItem.id, oneItem.item, newCategory, oneItem.frequency, oneItem.completed)
-        }
+        })  
 
         // Display changes
-        /*const getData = async () => {
-            const categoriesFromServer = await fetchCategories()
+        const getData = async (email) => {
+            const categoriesFromServer = await fetchCategories(email)
             setCategories(categoriesFromServer)
-            const itemsFromServer = await fetchItems()
+            const itemsFromServer = await fetchItems(email)
             setItems(itemsFromServer)
-        }*/
+        }
 
-        getData()
         setShowDeleteOrShop(false)
+        getData(email)
     }
 
-    // Toggle items between completed sections and to buy sections
-    const toggleCompleted = async (id) => {
-        const itemToToggle = await fetchItem(id)
-        const updateItem = { ...itemToToggle, completed: !itemToToggle.completed }
+    // Toggle items between completed sections and to buy sections TESTED
+    // NOTE: consider adding animation to hide how long this takes (2-4 seconds)
+    const toggleCompleted = async (email, item, completed) => {
+        if (completed == true) { completed = false } else { completed = true; }
+        const itemToToggle = { email: email, item: item, completed: completed }
+        //const updateItem = { ...itemToToggle, completed: !itemToToggle.completed }
 
-        const res = await fetch(`http://localhost:5000/items/${id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-type': 'application/json',
-        },
-        body: JSON.stringify(updateItem),
+        const res = await fetch(process.env.REACT_APP_HEROKU+"toggleItem", {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(itemToToggle),
         })
 
-        const data = await res.json()
-
+        //const data = await res.json()
     
-        /*const getData = async () => {
-            const categoriesFromServer = await fetchCategories()
+        const getData = async (email) => {
+            const categoriesFromServer = await fetchCategories(email)
             setCategories(categoriesFromServer)
-            const itemsFromServer = await fetchItems()
+            const itemsFromServer = await fetchItems(email)
             setItems(itemsFromServer)
-        }*/
+        }
 
-        getData()
+        getData(email)
     }
 
-    // DELETES
+    // ----------------------------------------- DELETES ---------------------------------------- //
 
     // Delete Task, probably fine, no delete item currently
-  const deleteCategory = async (id) => {
-    const categoryToDelete = fetchCategory(id)
-    const res = await fetch(`http://localhost:5000/categories/${id}`, {
-      method: 'DELETE',
-    })
-    //We should control the response status to decide if we will change the state or not.
-    res.status === 200
-      ? setCategories(categories.filter((category) => category.id !== id))
-      : alert('Error Deleting This Category')
-    
-      // update all items to new category
-      const allItems = await fetchItems()
-      const inCategory = allItems.filter(item => item.category === categoryToDelete.category)
-  
-      if (inCategory.length > 1) {
-        console.log(inCategory)
-        Object.values(inCategory).forEach(element => {
-          onEditItem(element.id, element.item, "", element.frequency, element.completed)
-        });
-      } else if (inCategory.length == 1) {
-        console.log(inCategory)
-        const oneItem = inCategory[0]
-        onEditItem(oneItem.id, oneItem.item, "", oneItem.frequency, oneItem.completed)
-      }
-  
-      // Display changes
-      const getData = async () => {
-        const categoriesFromServer = await fetchCategories()
-        setCategories(categoriesFromServer)
-        const itemsFromServer = await fetchItems()
-        setItems(itemsFromServer)
-      }
-  
-      getData()
-      setShowDeleteOrShop(false)
-  }
+    const onDeleteCategory = async (email, category) => {
+
+        if (window.confirm(`Are you sure that you want to delete ${category}?`) == true) {
+
+            const categoryToDelete = { email: email, category: category }
+            const res = await fetch(process.env.REACT_APP_HEROKU+"deleteCategory", {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(categoryToDelete),
+            })
+
+            //const data = await res.json()
+        
+            const getData = async (email) => {
+                const categoriesFromServer = await fetchCategories(email)
+                setCategories(categoriesFromServer)
+                const itemsFromServer = await fetchItems(email)
+                setItems(itemsFromServer)
+            }
+      
+            setShowDeleteOrShop(false)
+            getData(email)
+        }
+
+    }
+
+    // Delete item
+    const onDeleteItem = async (email, item) => {
+
+        if (window.confirm(`Are you sure that you want to delete ${item}?`) == true) {
+
+            const itemToDelete = { email: email, item: item }
+            const res = await fetch(process.env.REACT_APP_HEROKU+"deleteItem", {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(itemToDelete),
+            })
+
+            //const data = await res.json()
+        
+            const getData = async (email) => {
+                const categoriesFromServer = await fetchCategories(email)
+                setCategories(categoriesFromServer)
+                const itemsFromServer = await fetchItems(email)
+                setItems(itemsFromServer)
+            }
+      
+            setShowDeleteOrShop(false)
+            getData(email)
+        }}
   
     return (
       isAuthenticated && (
         <div>
+            <Header
+                onAddItem={() => {
+                    setShowAddItem(!showAddItem)
+                    setShowAddCat(false)
+                    setShowDeleteOrShop(false)
+                }}
+                onAddCategory={() => {
+                    setShowAddCat(!showAddCat)
+                    setShowAddItem(false)
+                    setShowDeleteOrShop(false)
+                }}
+                onDeleteOrShop={() => {
+                    setShowDeleteOrShop(!showDeleteOrShop)
+                    setShowAddCat(false)
+                    setShowAddItem(false)
+                }}
+                showItem={showAddItem}
+                showCat={showAddCat}
+                showDeleteOrShop={showDeleteOrShop}
+            />
+            {showAddItem && <AddItem email={email} onAddItem={addItem} categories={categories} />}
+            {showAddCat && <AddCategory email={email} onAddCategory={addCategory} />}
             <List
+                email={email}
                 categories={categories}
                 items={items}
                 // default is false, shopping. True is delete/edit mode
                 mode={showDeleteOrShop}
-                onShoppingFaItem={toggleCompleted}
+                toggle={toggleCompleted}
                 //onEditingFaItem={}
-                onFaCategory={deleteCategory}
                 onEditItem={onEditItem}
                 onEditCategory={onEditCategory}
+                onDeleteItem={onDeleteItem}
+                onDeleteCategory={onDeleteCategory}
             />
-            <LogoutButton />
         </div>
       )
-    );
+    )
 }
 
 export default Home;

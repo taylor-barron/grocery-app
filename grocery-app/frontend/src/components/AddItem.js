@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const AddItem = ({ onAddItem, categories }) => {
+const AddItem = ({ email, onAddItem, categories }) => {
   const [item, setItem] = useState('')
   const [category, setCategory] = useState('')
   const [frequency, setFrequency] = useState(false)
@@ -17,7 +17,7 @@ const AddItem = ({ onAddItem, categories }) => {
       return
     }
 
-    onAddItem({ item, category, frequency })
+    onAddItem({ email, item, category, frequency })
 
     setItem('')
     setCategory('')
@@ -36,11 +36,10 @@ const AddItem = ({ onAddItem, categories }) => {
         />
       </div>
       <div className='form-control'>
-          <label htmlFor='category'>Choose Category</label>
           <select className='select' name='category' id='categorySelect' 
             onChange={(e) => setCategory(e.target.value)}>
-            <option value={"Select a category"} default hidden disabled>Select a Category</option>
-            {categories.map((categories, index) => <option key={index} value={categories.category}>{categories.category}</option>)}
+            <option value="none" selected hidden disabled>Select a Category</option>
+            {categories.map((category, index) => <option key={index} value={category}>{category}</option>)}
           </select>
       </div>
       <div className='form-control form-control-check'>

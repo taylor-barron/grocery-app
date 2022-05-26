@@ -13,22 +13,39 @@ import Home from './Routes/Home'
 //import newUsersCategories from './backend/newUser'
 
 const App = () => {
+  const { user, isAuthenticated, isLoading } = useAuth0();
 
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
+
+  if (isAuthenticated) {
   return (
     <Router>
       <div className='container'>
         <Routes>
-          <Route
-            path='/'
-            element={<Home />}
-          />
+          <Route path='/' element={<Home user={user} isAuthenticated={isAuthenticated} />} />
           <Route path='/about' element={<About />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
         <Footer />
       </div>
     </Router>
-  )
+  )}
+  else {
+    return (
+      <Router>
+        <div className='container'>
+          <Routes>
+            <Route path='/' element={<Header />} />
+            <Route path='/about' element={<About />} />
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
+          <Footer />
+        </div>
+      </Router>
+    )
+  }
 }
 
 export default App

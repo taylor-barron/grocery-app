@@ -1,48 +1,58 @@
+import { useState } from 'react'
 import PropTypes from 'prop-types'
-import { useLocation } from 'react-router-dom'
+import { useLocation/*, BrowserRouter as Router, Route, Routes*/ } from 'react-router-dom'
 import Button from './Button'
 import LoggedIn from './LoggedIn'
 import LoggedOut from './LoggedOut'
+import mainLogo from '../assets/logo.png'
 import { useAuth0 } from "@auth0/auth0-react";
+import { FaBars } from 'react-icons/fa'
 
 const Header = ({ title, onAddItem, showItem, onAddCategory, showCat, onDeleteOrShop, showDeleteOrShop }) => {
+  const [showSubNav, setShowSubNav] = useState(false)
+  const [showAddCat, setShowAddCat] = useState(false)
   const location = useLocation()
   const { user, isAuthenticated, isLoading } = useAuth0
 
-  if (isLoading) {
-    return <div>Loading ...</div>
-  }
-
-  /*
-        {showAddItem && <AddItem onAddItem={addItem} categories={categories} />}
-        {showAddCat && <AddCategory onAddCategory={addCategory} />}
-  */
-
   return (
-    <header className='header'>
-      <h1>{title}</h1>
-      <h2>{user}</h2>
-      <LoggedIn />
-      <LoggedOut />
+    <header className='header' onScroll={() => setShowSubNav(false)}>
+      <nav>
+        <h4 className='toph4'>Quick List</h4>
+        <ul className='desktop-ul'>
+          <li><a className='nav-a' href='/'><b>Home</b></a></li>
+          <li><a className='nav-a' href='/about'><b>About</b></a></li>
+          <li><a className='nav-a' href='/profile'><b>Profile</b></a></li>
+        </ul>
+        <FaBars className='hamburger' onClick={() => setShowSubNav(!showSubNav)} />
+      </nav>
+      {showSubNav &&
+        <ul className='mobile-ul'>
+          <li><a className='nav-a' href='/'><b>Home</b></a></li>
+          <li><a className='nav-a' href='/about'><b>About</b></a></li>
+          <li><a className='nav-a' href='/profile'><b>Profile</b></a></li>
+        </ul>}
+      <div className='editItemDiv'>
+        <img src={mainLogo} />
+      </div>
       {location.pathname === '/' && (
-        <div>
+        <div className='button-container'>
         <Button
-            color={showCat ? 'blue' : 'purple'}
+            color={showCat ? '#8b0000' : '#1434A4'}
             text={showCat ? 'Close' : 'Add Category'}
             onClick={onAddCategory}
             buttonClass='btn'
         />
         <Button
-            color={showItem ? 'red' : 'green'}
+            color={showItem ? '#8b0000' : '#1434A4'}
             text={showItem ? 'Close' : 'Add Item'}
             onClick={onAddItem}
             buttonClass='btn'
         />
         <Button
-          color={showDeleteOrShop ? 'black' : 'brown'}
+          color={showDeleteOrShop ? '#8b0000' : 'black'}
           text={showDeleteOrShop ? 'Keep Shopping' : 'Edit Items'}
           onClick={onDeleteOrShop}
-          buttonClass='btn'
+          buttonClass='editbtn'
         />
         </div>
       )}
@@ -51,7 +61,7 @@ const Header = ({ title, onAddItem, showItem, onAddCategory, showCat, onDeleteOr
 }
 
 Header.defaultProps = {
-  title: 'Grocery List',
+  title: 'Quick List',
 }
 
 Header.propTypes = {

@@ -1,16 +1,17 @@
 import { useState } from "react";
+import { FaTimes } from "react-icons/fa";
 
-const EditItem = ({ onEditItem, item, categories }) => {
-    const [id, setId] = useState(item.id)
-    const [groceryItem, setGroceryItem] = useState(item.item)
+const EditItem = ({ email, onEditItem, onDeleteItem, item, categories }) => {
+    const [newItem, setNewItem] = useState(item.item)
     const [groceryCategory, setGroceryCategory] = useState(item.category)
     const [groceryFrequency, setGroceryFrequency] = useState(item.frequency)
     const [groceryCompleted, setGroceryCompleted] = useState(item.completed)
 
     const onSubmit = (e) => {
         //e.preventDefault()
+        const previousItem = item.item;
 
-        if (!groceryItem) {
+        if (!newItem) {
             alert('This cannot be blank')
             return
         }
@@ -19,9 +20,9 @@ const EditItem = ({ onEditItem, item, categories }) => {
           return
         }
 
-        onEditItem( id, groceryItem, groceryCategory, groceryFrequency, groceryCompleted )
+        onEditItem( email, newItem, previousItem, groceryCategory, groceryFrequency, groceryCompleted )
 
-        setGroceryItem('')
+        setNewItem('')
         setGroceryCategory('')
         setGroceryFrequency(item.frequency)
         setGroceryCompleted(item.completed)
@@ -30,12 +31,18 @@ const EditItem = ({ onEditItem, item, categories }) => {
     return (
         <form className='add-form' onSubmit={onSubmit}>
             <div className="form-control">
-                <label>Item</label>
+                <div className="deleteFa">
+                    <label>Item</label>
+                    <FaTimes
+                        style={{ color: 'red', cursor: 'pointer', height:'15px'}}
+                        onClick={() => onDeleteItem(email, item.item)}
+                        />
+                </div>
                 <input
                     type='text'
-                    placeholder={groceryItem}
-                    value={groceryItem}
-                    onChange={(e) => setGroceryItem(e.target.value)}
+                    placeholder={newItem}
+                    value={newItem}
+                    onChange={(e) => setNewItem(e.target.value)}
                 />
             </div>
             <div className='form-control'>
@@ -44,7 +51,7 @@ const EditItem = ({ onEditItem, item, categories }) => {
                 <select className='select' name='category' id='categorySelect' 
                     onChange={(e) => setGroceryCategory(e.target.value)}>
                     <option value={item.category} default hidden>{item.category}</option>
-                    {categories.map((categories, index) => <option key={index} value={categories.category}>{categories.category}</option>)}
+                    {categories.map((category, index) => <option key={index} value={category}>{category}</option>)}
                 </select>
             </div>
             <div className='form-control form-control-check'>

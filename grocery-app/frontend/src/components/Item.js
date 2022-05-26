@@ -3,7 +3,7 @@ import Button from './Button'
 import EditItem from './EditItem'
 import { FaSquare, FaTimes } from 'react-icons/fa'
 
-const Item = ({ item, categories, mode, onShoppingFaItem, onEditItem }) => {
+const Item = ({ email, item, categories, mode, toggle, onEditItem, onDeleteItem }) => {
   const [showEditItem, setShowEditItem] = useState(false)
   const [clicks, setClick] = useState(0)
 
@@ -26,7 +26,7 @@ const Item = ({ item, categories, mode, onShoppingFaItem, onEditItem }) => {
           <p className='grocery-item'>{item.item}{' '}</p>
           <FaSquare
             style={{ color: 'steelblue', cursor: 'pointer'}}
-            onClick={() => onShoppingFaItem(item.id)}
+            onClick={() => toggle(email, item.item, item.completed)}
           />
         </div>
         <hr></hr>
@@ -47,7 +47,7 @@ const Item = ({ item, categories, mode, onShoppingFaItem, onEditItem }) => {
               />
             </div>
             <hr></hr>
-          {(showEditItem && clicks == 1) && <EditItem onEditItem={onEditItem} item={item} categories={categories} />}
+          {(showEditItem && clicks == 1) && <EditItem email={email} onEditItem={onEditItem} onDeleteItem={onDeleteItem} item={item} categories={categories} />}
         </div>        
       )
     }

@@ -1,19 +1,24 @@
 import CompletedItem from './CompletedItem'
 
-const Frequent = ({ items, mode, onShoppingFaItem }) => {
+const Frequent = ({ email, items, categories, mode, toggle, onEditItem, onDeleteItem }) => {
 
     const frequentItems = items.filter(item => item.frequency === true)
     const frequentCompletedItems = frequentItems.filter(frequentItem => frequentItem.completed === true)
-    return (
-        <>
-            <h2 className='completed-h2'>Frequent Purchases</h2>
-            <hr></hr>
-            {frequentCompletedItems.map((item, index) => (
-                <CompletedItem key={index} item={item} mode={mode} onShoppingFaItem={onShoppingFaItem} />
-            ))}
-            <br></br>
-        </>
-    )
+
+    if (frequentCompletedItems.length != 0) {
+        return (
+            <>
+                <h2 className='completed-h2'>Frequent Purchases</h2>
+                {frequentCompletedItems.map((item, index) => (
+                    <div key={index}>
+                        <CompletedItem email={email} categories={categories} item={item} mode={mode} toggle={toggle} onEditItem={onEditItem} onDeleteItem={onDeleteItem} />
+                        <hr></hr>
+                    </div>
+                ))}
+                <br></br>
+            </>
+        )
+    }
 }
 
 export default Frequent

@@ -11,10 +11,9 @@ const LoggedIn = () => {
 
   return (
     isAuthenticated && (
-      <div>
-        <h2>{user.name}</h2>
-        <p>{user.email}</p>
-        <a href='/profile'>Profile</a>
+      <div className="profile-container">
+        <p><b>Email:</b>  {user.email}</p><br></br>
+        <p><b>Last Updated:</b>  {user.updated_at}</p><br></br><br></br>
         <LogoutButton />
       </div>
     )

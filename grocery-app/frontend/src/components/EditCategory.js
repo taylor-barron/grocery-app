@@ -1,31 +1,40 @@
 import { useState } from "react";
+import { FaTimes } from "react-icons/fa";
 
-const EditCategory = ({ onEditCategory, category }) => {
-    const [categoryName, setCategoryName] = useState(category.category)
+const EditCategory = ({ email, onEditCategory, onDeleteCategory, category, items }) => {
+    const oldCategory = category.category;
+    const [newCategory, setNewCategory] = useState("")
 
     const onSubmit = (e) => {
-        //e.preventDefault()
+        e.preventDefault()
         // pass edit item function and items, complete item category changes here and refresh page on change
+        const previousCategory = category;
 
-        if (!categoryName) {
+        if (!newCategory) {
             alert('Please enter a category name')
             return
         }
 
-        onEditCategory(category.id, categoryName)
+        onEditCategory( email, newCategory, category[1], items )
 
-        setCategoryName('')
+        setNewCategory('')
     }
 
     return (
         <form className='add-form' onSubmit={onSubmit}>
           <div className='form-control'>
-            <label>Category</label>
+            <div className="deleteFa">
+              <label>Category</label>
+              <FaTimes
+                style={{ color: 'red', cursor: 'pointer', height:'15px'}}
+                onClick={() => onDeleteCategory(email, category, items)}
+              />
+            </div>
             <input
               type='text'
-              placeholder={categoryName}
-              value={categoryName}
-              onChange={(e) => setCategoryName(e.target.value)}
+              placeholder="New Category Name"
+              value={newCategory}
+              onChange={(e) => setNewCategory(e.target.value)}
             />
           </div>  
           <input type='submit' value='Edit Category' className='btn btn-block' />
