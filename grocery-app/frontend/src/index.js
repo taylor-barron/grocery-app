@@ -21,7 +21,7 @@ root.render(
   </Auth0Provider>
 );
 /*
-  <React.StrictMode>
+  <React.StrictMode>>
     <App />
   </React.StrictMode>
   document.getElementById("root")*/
