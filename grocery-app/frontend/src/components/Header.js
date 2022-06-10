@@ -28,9 +28,9 @@ const Header = ({ title, onAddItem, showItem, onAddCategory, showCat, onDeleteOr
       </nav>
       {showSubNav &&
         <ul className='mobile-ul'>
-          <li><a className='nav-a' href='/grocery-app/'><b>Home</b></a></li>
-          <li><a className='nav-a' href='/grocery-app/about'><b>About</b></a></li>
-          <li><a className='nav-a' href='/grocery-app/profile'><b>Profile</b></a></li>
+          <li><a className='nav-a' href='/'><b>Home</b></a></li>
+          <li><a className='nav-a' href='/about'><b>About</b></a></li>
+          <li><a className='nav-a' href='/profile'><b>Profile</b></a></li>
         </ul>}
       <div className='editItemDiv'>
         <img src={mainLogo} />
