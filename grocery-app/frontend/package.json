@@ -1,7 +1,6 @@
 {
   "name": "grocery-app",
   "version": "0.1.0",
-  "homepage": "https://taylor-barron.github.io/grocery-app/",
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^1.10.1",
