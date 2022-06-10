@@ -14,8 +14,6 @@ const Profile = () => {
   return (
     <div className="profile-container">
     <Header />
-    <LoggedIn />
-    <LoggedOut />
     </div>
   );
 };
