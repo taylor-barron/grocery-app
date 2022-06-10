@@ -15,7 +15,8 @@ const Header = ({ title, onAddItem, showItem, onAddCategory, showCat, onDeleteOr
   const { user, isAuthenticated, isLoading } = useAuth0
 
   return (
-    <header className='header' onScroll={() => setShowSubNav(false)}>
+    <div>
+      <header className='header' onScroll={() => setShowSubNav(false)}>
       <nav>
         <h4 className='toph4'>Quick List</h4>
         <ul className='desktop-ul'>
@@ -34,6 +35,7 @@ const Header = ({ title, onAddItem, showItem, onAddCategory, showCat, onDeleteOr
       <div className='editItemDiv'>
         <img src={mainLogo} />
       </div>
+      </header>
       {isAuthenticated & location.pathname === '/' ? (
         <div className='button-container'>
         <Button
@@ -56,7 +58,7 @@ const Header = ({ title, onAddItem, showItem, onAddCategory, showCat, onDeleteOr
         />
         </div>
       ) : null }
-    </header>
+    </div>
   )
 }
 
