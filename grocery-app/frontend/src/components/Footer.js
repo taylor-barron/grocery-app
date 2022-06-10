@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer>
       <LoggedIn />
-      <LoggedOut />
+      <LoggedOut /><br></br>
       <p>Copyright &copy; 2022</p>
       <Link to='/grocery-app/about'>About</Link>
     </footer>
