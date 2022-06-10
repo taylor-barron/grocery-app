@@ -19,22 +19,22 @@ const Header = ({ title, onAddItem, showItem, onAddCategory, showCat, onDeleteOr
       <nav>
         <h4 className='toph4'>Quick List</h4>
         <ul className='desktop-ul'>
-          <li><a className='nav-a' href='/'><b>Home</b></a></li>
-          <li><a className='nav-a' href='/about'><b>About</b></a></li>
-          <li><a className='nav-a' href='/profile'><b>Profile</b></a></li>
+          <li><a className='nav-a' href='/grocery-app/'><b>Home</b></a></li>
+          <li><a className='nav-a' href='/grocery-app/about'><b>About</b></a></li>
+          <li><a className='nav-a' href='/grocery-app/profile'><b>Profile</b></a></li>
         </ul>
         <FaBars className='hamburger' onClick={() => setShowSubNav(!showSubNav)} />
       </nav>
       {showSubNav &&
         <ul className='mobile-ul'>
-          <li><a className='nav-a' href='/'><b>Home</b></a></li>
-          <li><a className='nav-a' href='/about'><b>About</b></a></li>
-          <li><a className='nav-a' href='/profile'><b>Profile</b></a></li>
+          <li><a className='nav-a' href='/grocery-app/'><b>Home</b></a></li>
+          <li><a className='nav-a' href='/grocery-app/about'><b>About</b></a></li>
+          <li><a className='nav-a' href='/grocery-app/profile'><b>Profile</b></a></li>
         </ul>}
       <div className='editItemDiv'>
         <img src={mainLogo} />
       </div>
-      {location.pathname === '/' && (
+      {isAuthenticated & location.pathname === '/' ? (
         <div className='button-container'>
         <Button
             color={showCat ? '#8b0000' : '#1434A4'}
@@ -55,7 +55,7 @@ const Header = ({ title, onAddItem, showItem, onAddCategory, showCat, onDeleteOr
           buttonClass='editbtn'
         />
         </div>
-      )}
+      ) : null }
     </header>
   )
 }
