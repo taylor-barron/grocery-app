@@ -253,6 +253,7 @@ const Home = ({user, isAuthenticated}) => {
       isAuthenticated && (
         <div>
             <Header
+                isAuthenticated={true}
                 onAddItem={() => {
                     setShowAddItem(!showAddItem)
                     setShowAddCat(false)

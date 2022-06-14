@@ -8,11 +8,10 @@ import mainLogo from '../assets/logo.png'
 import { useAuth0 } from "@auth0/auth0-react";
 import { FaBars } from 'react-icons/fa'
 
-const Header = ({ title, onAddItem, showItem, onAddCategory, showCat, onDeleteOrShop, showDeleteOrShop }) => {
+const Header = ({ title, isAuthenticated, onAddItem, showItem, onAddCategory, showCat, onDeleteOrShop, showDeleteOrShop }) => {
   const [showSubNav, setShowSubNav] = useState(false)
   const [showAddCat, setShowAddCat] = useState(false)
   const location = useLocation()
-  const { user, isAuthenticated, isLoading } = useAuth0
 
   return (
     <div>
